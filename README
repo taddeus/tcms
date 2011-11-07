@@ -1,0 +1,6 @@
+This is the newest version of the open-source Content Management System Tcms,
+using the PHP utility framework pQuery.
+
+The main goal of this project is to test if the minimalistic programming style
+of pQuery is suitable for web programming, and could be preferred over the
+regular MVC frameworks (especially for small, customized websites).
