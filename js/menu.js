@@ -15,6 +15,8 @@
 				load_content(url);
 			}
 		},
+		// Compare the current hash to the url in a short interval
+		// to allow browsing with forward/backward links
 		interval,
 		reset_interval = function() {
 			clearInterval(interval);
@@ -27,6 +29,7 @@
 	if( url == '' )
 		url = location.hash = 'pages';
 	
+	// Assert instant response to hashtag links
 	$('a[href^=#]').live('click', function() {
 		reset_interval();
 		refresh_url($(this).attr('href').substring(1));
