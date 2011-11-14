@@ -4,10 +4,12 @@
 include_once 'pquery.config.php';
 include_once PQUERY_ROOT.'pquery.php';
 
+// Config
 __p::require_plugins('template', 'sql', 'url', 'js', 'css');
-
+__p::load_util('minify_html', 'jshrink', 'CssParser');
 __tpl::set_root('templates');
 
+// URL rewriting
 __url::add_handlers(array(
 	'css/(.*)' => 'css_handler',
 	'js/(.*)' => 'js_handler',
@@ -15,6 +17,7 @@ __url::add_handlers(array(
 	'(.*)' => 'content'
 ));
 
+// Call content handler
 header('Vary: Accept-Encoding');
 
 $handler = strstr($_SERVER['HTTP_ACCEPT_ENCODING'], 'gzip') !== false ? 'ob_gzhandler' : '';
@@ -23,11 +26,8 @@ ob_start($handler);
 _url($_SERVER['QUERY_STRING'])->handler();
 ob_end_flush();
 
-/**
- * 
- * 
- * @param string $files One or more scripts separated by commas (',').
- */
+// Cache handlers
+
 function js_handler($files) {
 	$prepend_folder = create_function('$x', 'return "js/$x";');
 	_js(array_map($prepend_folder, explode(',', $files)))->output();
@@ -38,15 +38,13 @@ function css_handler($files) {
 	_css(array_map($prepend_folder, explode(',', $files)))->output();
 }
 
+// HTML handlers
+
 function content() {
-	header('Content-Type: text/html; charset=utf-8');
-	
-	echo 'content';
+	html('content');
 }
 
 function layout() {
-	header('Content-Type: text/html; charset=utf-8');
-	
 	$menu = array(
 		array('Pagina\'s', 'pages'),
 		array('Nieuws', 'news'),
@@ -63,7 +61,18 @@ function layout() {
 		$i || $item->set('active', 'active');
 	}
 
-	echo $layout->parse();
+	html($layout->parse());
+}
+
+// HTML wrapper handler, minifies HTML and sets Content-Type header
+
+function html($html) {
+	header('Content-Type: text/html; charset=utf-8');
+	
+	echo Minify_HTML::minify($html, array(
+		'cssMinifier' => 'CssParser::minify',
+		'jsMinifier' => 'JShrink::minify'
+	));
 }
 
 ?>
