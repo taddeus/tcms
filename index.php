@@ -6,7 +6,7 @@ include_once PQUERY_ROOT.'pquery.php';
 
 // Config
 __p::require_plugins('template', 'sql', 'url', 'js', 'css');
-__p::load_util('minify_html', 'jshrink', 'CssParser');
+__p::load_utils('minify_html', 'jshrink', 'CssParser');
 __tpl::set_root('templates');
 
 // URL rewriting
