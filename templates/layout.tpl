@@ -3,19 +3,26 @@
 <head>
 	<title>Tcms</title>
 	<meta charset="utf-8" />
-	<link href="css/main.css" rel="stylesheet" />	
+	<link href="css/main" rel="stylesheet" />
+	<script async type="text/javascript" src="js/jquery-1.7.min,menu,list"></script>
+	<!--
+	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script type="text/javascript">
+		$.getScript('js/menu,list');
+	</script>
+	-->
 </head>
 <body>
 
 <div id="wrapper">
-	<ul id="menu">
+	<div id="menu">
 		{block:menu}
-		<li class="{active}">
+		<a href="#{icon}" class="{active}">
 			{title}
 			<div class="icon {icon}"></div>
-		</li>
+		</a>
 		{end}
-	</ul>
+	</div>
 </div>
 
 </body>
